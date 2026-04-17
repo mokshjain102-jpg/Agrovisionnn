@@ -1,0 +1,9 @@
+# AgroVision AI
+__pycache__/
+*.pyc
+*.pyo
+uploads/
+model.h5
+.env
+*.h5
+.DS_Store

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgroVision AI - AI-powered crop disease detection. Upload leaf photo and get instant diagnosis with treatment.">
+  <title>AgroVision AI - फसल रोग पहचान</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Floating Leaves -->
+  <div class="leaf-container" id="leafContainer"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="mainNav">
+    <a href="#" class="nav-logo">
+      <span>🌱 AgroVision AI</span>
+    </a>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#features">Features</a>
+      <a href="#scan">AI Scan</a>
+      <a href="#calendar">Fasal Calendar</a>
+      <a href="#tips">Krishi Gyan</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      AI-Powered Crop Health Platform
+    </div>
+    <h1>
+      <span class="gradient">फसल की बीमारी</span><br>
+      पहचानें, सटीक इलाज पाएं
+    </h1>
+    <p>अपनी फसल के पत्ते की photo upload करें और तुरंत AI-based diagnosis पाएं — बीमारी का नाम, लक्षण, सावधानियां, बचाव और इलाज सब एक जगह।</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToSection('scan')">📸 Scan Karein</button>
+      <button class="btn-secondary" onclick="scrollToSection('features')">🌿 Features Dekhein</button>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-num" data-target="15" data-suffix="+">0</div>
+      <div class="stat-label">Diseases Detected</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="3" data-suffix="">0</div>
+      <div class="stat-label">Crop Types</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="98" data-suffix="%">0</div>
+      <div class="stat-label">AI Accuracy</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="5" data-suffix="s">0</div>
+      <div class="stat-label">Instant Result</div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section-header reveal">
+      <h2>🌾 Hamari <span class="accent">Features</span></h2>
+      <p>Advanced AI technology se apni fasal ki suraksha karein</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <span class="feature-icon">🔬</span>
+        <h3>AI Disease Detection</h3>
+        <p>15+ faslon ki bimaariyon ko pehchaanein — Tamatar, Aloo, Shimla Mirch ke liye trained model</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">📋</span>
+        <h3>Detailed Report</h3>
+        <p>Har bimari ke liye lakshan, sawdhaniyaan, bachaav aur ilaaj — Hindi mein bhi</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🛡️</span>
+        <h3>Smart Validation</h3>
+        <p>Galat photo upload karne par turant batayega — sirf valid leaf photos accept</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">📅</span>
+        <h3>Fasal Calendar</h3>
+        <p>Mahine ke hisaab se kaunsi fasal lagaani hai — poora saal ka guide</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">🌿</span>
+        <h3>Krishi Gyan</h3>
+        <p>Kheti ke baare mein organic tips, sinchai, keet niyantran — sab ek jagah</p>
+      </div>
+      <div class="feature-card reveal">
+        <span class="feature-icon">⚡</span>
+        <h3>Instant Results</h3>
+        <p>5 second mein result — koi wait nahi, koi registration nahi, sirf photo upload karein</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Scan Section -->
+  <section class="section scan-section" id="scan">
+    <div class="section-header reveal">
+      <h2>🔬 AI <span class="accent">Scan</span></h2>
+      <p>Apni fasal ke patte ki photo upload karein aur turant jaanein</p>
+    </div>
+    <div class="scan-container reveal">
+      <div class="upload-zone" id="uploadZone">
+        <span class="icon">📸</span>
+        <h3>Photo Upload ya Drag & Drop Karein</h3>
+        <p>JPG, PNG format supported | Leaf ki clear photo lein</p>
+        <input type="file" id="fileInput" accept="image/*">
+      </div>
+
+      <div class="preview-container" id="previewContainer">
+        <img src="" alt="Preview" class="preview-img" id="previewImg">
+        <button class="scan-btn" id="scanBtn" disabled>🔬 AI Se Scan Karein</button>
+      </div>
+
+      <!-- Error display -->
+      <div id="errorSection" style="display:none;"></div>
+
+      <!-- Result display -->
+      <div class="result-section" id="resultSection"></div>
+    </div>
+  </section>
+
+  <!-- Crop Calendar -->
+  <section class="section" id="calendar">
+    <div class="section-header reveal">
+      <h2>📅 Fasal <span class="accent">Calendar</span></h2>
+      <p>Mahine ke hisaab se fasal ki jaankari</p>
+    </div>
+    <div class="calendar-grid reveal" id="calendarGrid">
+      <!-- Loaded by JS -->
+    </div>
+  </section>
+
+  <!-- Krishi Gyan Tips -->
+  <section class="section" id="tips">
+    <div class="section-header reveal">
+      <h2>🌿 Krishi <span class="accent">Gyan</span></h2>
+      <p>Kheti ke kaam ke tips aur sujhaav</p>
+    </div>
+    <div class="tips-grid reveal" id="tipsGrid">
+      <!-- Loaded by JS -->
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <div class="section-header reveal">
+      <h2>📞 Sampark <span class="accent">Karein</span></h2>
+      <p>Koi sawaal ya sujhaav ho toh humse sampark karein</p>
+    </div>
+    <div class="contact-container reveal">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-card">
+            <span class="contact-icon">👨‍💻</span>
+            <h3>Developer</h3>
+            <p>Dhruv</p>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon">📧</span>
+            <h3>Email</h3>
+            <p>mokshjain102@gmail.com</p>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon">📱</span>
+            <h3>Phone</h3>
+            <p>+91 8103707609</p>
+          </div>
+          <div class="contact-card">
+            <span class="contact-icon">📍</span>
+            <h3>Location</h3>
+            <p>India 🇮🇳</p>
+          </div>
+        </div>
+        <div class="contact-form-wrap">
+          <form class="contact-form" onsubmit="submitContact(event)">
+            <input type="text" placeholder="Aapka Naam" required id="contactName">
+            <input type="email" placeholder="Email Address" required id="contactEmail">
+            <textarea placeholder="Apna message likhein..." rows="4" required id="contactMsg"></textarea>
+            <button type="submit" class="btn-primary" style="width:100%;">📩 Message Bhejein</button>
+          </form>
+          <div id="contactSuccess" style="display:none;" class="contact-success">
+            ✅ Dhanyavaad! Aapka message mil gaya. Hum jald sampark karenge.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>🌱 AgroVision AI — Kisaanon ke liye, technology ke saath</p>
+    <p style="margin-top:8px;">Made with <span class="heart">❤️</span> by Dhruv | © 2026</p>
+  </footer>
+
+  <!-- Chatbot FAB -->
+  <button class="chat-fab" id="chatFab" onclick="toggleChat()">🤖</button>
+
+  <!-- Chat Window -->
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-avatar">🌱</div>
+      <div class="chat-header-info">
+        <h4>Krishi AI Bot</h4>
+        <span>🟢 Online — Kheti ka saathi</span>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">🙏 Namaste! Main <b>Krishi AI Bot</b> hoon. Kheti se related koi bhi sawaal poochein — fasal, mitti, khaad, rog, sarkari yojnayen, sab kuch!</div>
+    </div>
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <div class="chat-input-bar">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Apna sawaal poochein..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button class="chat-send" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader-ring"></div>
+    <div class="loading-text">🔬 AI Analyzing... Apki fasal ki jaanch ho rahi hai</div>
+  </div>
+
+  <script src="/static/js/script.js"></script>
+</body>
+</html>
