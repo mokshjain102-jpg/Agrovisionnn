@@ -99,6 +99,12 @@ async function analyzeImage(file) {
       showDetailedResults(data);
       addToHistory(data.crop, data.disease);
       updateScanCount();
+    } else if (data.error === 'not_a_leaf') {
+      if (cropEl) cropEl.textContent = '--';
+      if (diseaseEl) diseaseEl.textContent = 'Not a leaf!';
+      if (solutionEl) solutionEl.textContent = '--';
+      alert('⚠️ ' + data.message);
+      return;
     } else {
       if (diseaseEl) diseaseEl.textContent = 'Error';
     }
