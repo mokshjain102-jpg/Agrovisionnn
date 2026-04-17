@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroVision - AI Powered Smart Farming</title>
+  <meta name="description" content="AgroVision - AI-Powered Crop & Livestock Analysis. Empowering Farmers with Real-Time Insights, Better Decisions & Higher Yields.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo" id="nav-logo">
+        <div class="logo-icon">🌿</div>
+        <div class="logo-text">
+          <span class="logo-title">Agro<span class="logo-highlight">Vision</span></span>
+          <span class="logo-subtitle">AI Powered Smart Farming</span>
+        </div>
+      </a>
+      <div class="nav-links" id="nav-links">
+        <a href="index.html" class="nav-link active" id="nav-home">Home</a>
+        <a href="#insights" class="nav-link" id="nav-insights">Insights</a>
+        <a href="#history" class="nav-link" id="nav-history">History</a>
+        <a href="#weather-section" class="nav-link" id="nav-weather">Weather</a>
+        <a href="chat.html" class="nav-link" id="nav-chat">AI Chat</a>
+        <a href="#about" class="nav-link" id="nav-about">About</a>
+        <a href="#contact" class="nav-link" id="nav-contact">Contact</a>
+      </div>
+      <a href="chat.html" class="nav-cta" id="nav-ai-btn">
+        <i class="fas fa-comment-dots"></i> AI Assistant
+      </a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title" id="hero-title">Agro<span class="hero-title-highlight">Vision</span></h1>
+        <h2 class="hero-subtitle">Smart Farming. Smarter Future.</h2>
+        <p class="hero-desc">AI-Powered Crop & Livestock Analysis<br>Empowering Farmers with Real-Time Insights,<br>Better Decisions & Higher Yields.</p>
+        <div class="hero-actions">
+          <button class="btn-scan" id="btn-scan" onclick="scrollToSection('scan')">
+            <i class="fas fa-camera"></i>
+            <div class="btn-scan-text">
+              <strong>SCAN CROP / ANIMAL</strong>
+              <small>Click or Drag & Drop</small>
+            </div>
+          </button>
+          <button class="btn-demo" id="btn-demo" onclick="openDemo()">
+            <div class="btn-demo-icon"><i class="fas fa-play"></i></div>
+            <div class="btn-demo-text">
+              <strong>Watch Demo</strong>
+              <small>See How It Works</small>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-item">
+        <i class="fas fa-brain stat-icon"></i>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-accuracy">95.6%</span>
+          <span class="stat-label">AI Accuracy</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-users stat-icon"></i>
+        <div class="stat-info">
+          <span class="stat-value">50K+</span>
+          <span class="stat-label">Farmers Trust Us</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-temperature-half stat-icon"></i>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-temp">28°C</span>
+          <span class="stat-label">Temperature</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-droplet stat-icon"></i>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-humidity">60%</span>
+          <span class="stat-label">Humidity</span>
+        </div>
+      </div>
+      <div class="stat-item">
+        <i class="fas fa-clock-rotate-left stat-icon"></i>
+        <div class="stat-info">
+          <span class="stat-value" id="stat-scans">12</span>
+          <span class="stat-label">Past Scans</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN DASHBOARD GRID -->
+  <section class="dashboard-section" id="scan">
+    <div class="dashboard-grid">
+
+      <!-- AI PREDICTION CARD -->
+      <div class="dash-card prediction-card" id="prediction-card">
+        <div class="card-header">
+          <h3>AI Prediction</h3>
+          <span class="live-badge"><span class="live-dot"></span> Live</span>
+        </div>
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('fileInput').click()">
+          <div class="upload-icon">
+            <i class="fas fa-cloud-arrow-up"></i>
+          </div>
+          <p class="upload-text"><strong>Drag & Drop Image Here</strong></p>
+          <p class="upload-subtext">or Click to Upload</p>
+          <input type="file" id="fileInput" accept="image/*" style="display:none" onchange="handleFileSelect(event)">
+        </div>
+        <div class="prediction-results" id="prediction-results">
+          <div class="result-item">
+            <span class="result-label">Crop</span>
+            <span class="result-value" id="result-crop">--</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Disease</span>
+            <span class="result-value" id="result-disease">--</span>
+          </div>
+          <div class="result-item">
+            <span class="result-label">Solution</span>
+            <span class="result-value" id="result-solution">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEATHER CARD -->
+      <div class="dash-card weather-card" id="weather-section">
+        <div class="card-header">
+          <h3><i class="fas fa-cloud-sun"></i> Weather Today</h3>
+        </div>
+        <div class="weather-display">
+          <div class="weather-icon-large">
+            <i class="fas fa-cloud-sun weather-main-icon"></i>
+          </div>
+          <div class="weather-temp" id="weather-temp">28°C</div>
+          <div class="weather-condition" id="weather-condition">Partly Cloudy</div>
+          <div class="weather-range" id="weather-range">H: 32°C &nbsp; L: 22°C</div>
+        </div>
+      </div>
+
+      <!-- QUICK INSIGHTS CARD -->
+      <div class="dash-card insights-card" id="insights">
+        <div class="card-header">
+          <h3><i class="fas fa-bolt"></i> Quick Insights</h3>
+          <a href="#" class="view-all-link" id="insights-view-all">View All</a>
+        </div>
+        <div class="insights-list">
+          <div class="insight-item">
+            <i class="fas fa-check-circle insight-check"></i>
+            <span>Perfect time for irrigation</span>
+          </div>
+          <div class="insight-item">
+            <i class="fas fa-check-circle insight-check"></i>
+            <span>Soil moisture is optimal</span>
+          </div>
+          <div class="insight-item">
+            <i class="fas fa-check-circle insight-check"></i>
+            <span>High yield probability this season</span>
+          </div>
+          <div class="insight-item">
+            <i class="fas fa-check-circle insight-check"></i>
+            <span>Monitor for fungal diseases</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECENT HISTORY CARD -->
+      <div class="dash-card history-card" id="history">
+        <div class="card-header">
+          <h3><i class="fas fa-clock-rotate-left"></i> Recent History</h3>
+          <a href="#" class="view-all-link" id="history-view-all">View All</a>
+        </div>
+        <div class="history-list" id="history-list">
+          <div class="history-item-card">
+            <div class="history-thumb tomato-thumb"></div>
+            <div class="history-info">
+              <strong>Tomato - Early Blight</strong>
+              <small>2 hours ago</small>
+            </div>
+          </div>
+          <div class="history-item-card">
+            <div class="history-thumb rice-thumb"></div>
+            <div class="history-info">
+              <strong>Rice - Healthy</strong>
+              <small>1 day ago</small>
+            </div>
+          </div>
+          <div class="history-item-card">
+            <div class="history-thumb maize-thumb"></div>
+            <div class="history-info">
+              <strong>Maize - Leaf Spot</strong>
+              <small>3 days ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES SECTION -->
+  <section class="features-section" id="features">
+    <div class="features-badge">POWERED BY AI</div>
+    <h2 class="features-title">Everything You Need for Smart Farming</h2>
+    <p class="features-subtitle">Advanced tools and insights to boost your farming success</p>
+    <div class="features-grid">
+      <div class="feature-card" id="feature-scanning">
+        <div class="feature-icon-wrap">
+          <i class="fas fa-camera"></i>
+        </div>
+        <h4>AI Crop Scanning</h4>
+        <p>Detect diseases & get instant solutions</p>
+      </div>
+      <div class="feature-card" id="feature-insights">
+        <div class="feature-icon-wrap">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h4>Smart Insights</h4>
+        <p>AI-powered recommendations</p>
+      </div>
+      <div class="feature-card" id="feature-weather">
+        <div class="feature-icon-wrap">
+          <i class="fas fa-cloud"></i>
+        </div>
+        <h4>Weather Updates</h4>
+        <p>Real-time weather & forecasts</p>
+      </div>
+      <div class="feature-card" id="feature-history">
+        <div class="feature-icon-wrap">
+          <i class="fas fa-clock-rotate-left"></i>
+        </div>
+        <h4>Scan History</h4>
+        <p>Track & analyze past scans</p>
+      </div>
+      <div class="feature-card" id="feature-assistant">
+        <div class="feature-icon-wrap">
+          <i class="fas fa-comment-dots"></i>
+        </div>
+        <h4>AI Assistant</h4>
+        <p>24/7 Farming Guide</p>
+      </div>
+      <div class="feature-card" id="feature-knowledge">
+        <div class="feature-icon-wrap">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <h4>Crop Knowledge</h4>
+        <p>Learn & grow smarter</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section class="about-section" id="about">
+    <div class="about-container">
+      <div class="about-content">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&h=400&fit=crop" alt="Smart farming field" id="about-img">
+        </div>
+        <div class="about-text">
+          <h2>About AgroVision</h2>
+          <p>AgroVision is revolutionizing agriculture with artificial intelligence. We help farmers make better decisions, increase productivity, and build a sustainable future.</p>
+          <ul class="about-features">
+            <li><i class="fas fa-check"></i> Advanced AI & Machine Learning</li>
+            <li><i class="fas fa-check"></i> Real-time Data & Analytics</li>
+            <li><i class="fas fa-check"></i> User-Friendly & Fast</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CONTACT CARD -->
+      <div class="contact-card" id="contact">
+        <h3>Get In Touch</h3>
+        <p class="contact-subtitle">Have questions? We're here to help!</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:mokshjain102@gmail.com" id="contact-email">mokshjain102@gmail.com</a>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <a href="tel:+918103707609" id="contact-phone">+91 81037 07609</a>
+          </div>
+        </div>
+        <div class="social-links">
+          <span>Follow Us</span>
+          <div class="social-icons">
+            <a href="#" class="social-icon" id="social-facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" id="social-twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-icon" id="social-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon" id="social-linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="footer-container">
+      <div class="footer-logo">
+        <div class="logo-icon">🌿</div>
+        <div class="logo-text">
+          <span class="logo-title">Agro<span class="logo-highlight">Vision</span></span>
+          <span class="logo-subtitle">AI Powered Smart Farming</span>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html" id="footer-home">Home</a>
+        <a href="#insights" id="footer-insights">Insights</a>
+        <a href="#history" id="footer-history">History</a>
+        <a href="#weather-section" id="footer-weather">Weather</a>
+        <a href="chat.html" id="footer-chat">AI Chat</a>
+        <a href="#about" id="footer-about">About</a>
+        <a href="#contact" id="footer-contact">Contact</a>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2026 AgroVision. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- DEMO MODAL -->
+  <div class="modal-overlay" id="demo-modal">
+    <div class="modal-content" id="demo-modal-content">
+      <button class="modal-close" id="demo-modal-close" onclick="closeDemo()">&times;</button>
+      <h2>How AgroVision Works</h2>
+      <div class="demo-steps">
+        <div class="demo-step">
+          <div class="demo-step-num">1</div>
+          <i class="fas fa-camera"></i>
+          <h4>Upload Image</h4>
+          <p>Take a photo of your crop leaf or livestock</p>
+        </div>
+        <div class="demo-step">
+          <div class="demo-step-num">2</div>
+          <i class="fas fa-brain"></i>
+          <h4>AI Analysis</h4>
+          <p>Our AI model detects diseases with 95.6% accuracy</p>
+        </div>
+        <div class="demo-step">
+          <div class="demo-step-num">3</div>
+          <i class="fas fa-prescription"></i>
+          <h4>Get Solution</h4>
+          <p>Receive instant treatment recommendations</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

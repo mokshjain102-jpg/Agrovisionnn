@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroVision AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+background:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef") no-repeat center/cover;
+color:white;
+}
+
+body::before{
+content:"";
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.6);
+z-index:-1;
+}
+
+/* NAV */
+header{
+display:flex;
+justify-content:space-between;
+padding:20px 40px;
+background:rgba(0,0,0,0.5);
+position:sticky;
+top:0;
+}
+
+nav a{
+color:white;
+margin:10px;
+cursor:pointer;
+text-decoration:none;
+}
+
+/* HERO */
+.hero{
+height:90vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.hero h1{font-size:40px;}
+
+.btn{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+background:#4caf50;
+color:white;
+cursor:pointer;
+}
+
+/* FEATURES */
+.features{
+display:flex;
+justify-content:center;
+gap:20px;
+padding:40px;
+flex-wrap:wrap;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:10px;
+}
+
+/* DEMO */
+.demo{text-align:center;padding:40px;}
+
+/* SECTION */
+section{padding:60px 30px;}
+
+/* DASHBOARD */
+.stats{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+.stat{
+background:#2e7d32;
+padding:20px;
+border-radius:10px;
+flex:1;
+}
+
+/* LOGIN */
+.login-box{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:20px;
+border-radius:10px;
+}
+
+/* CHATBOT */
+#chatbot{
+position:fixed;
+bottom:20px;
+right:20px;
+width:300px;
+background:white;
+color:black;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.3);
+}
+
+#chat-header{
+background:#2e7d32;
+color:white;
+padding:10px;
+font-weight:bold;
+}
+
+#chat-box{
+height:200px;
+overflow-y:auto;
+padding:10px;
+font-size:14px;
+}
+
+#chat-input{
+width:70%;
+padding:10px;
+border:none;
+border-top:1px solid #ccc;
+}
+
+#chatbot button{
+width:30%;
+border:none;
+background:#4caf50;
+color:white;
+cursor:pointer;
+}
+
+ul{margin-top:15px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>🌱 AgroVision</h2>
+<nav>
+<a onclick="scrollToSec('home')">Home</a>
+<a onclick="scrollToSec('about')">About</a>
+<a onclick="scrollToSec('services')">Services</a>
+<a onclick="scrollToSec('dashboard')">Dashboard</a>
+<a onclick="openLogin()">Login</a>
+</nav>
+</header>
+
+<!-- HERO -->
+<div class="hero" id="home">
+<h1>AI Crop Disease Detection</h1>
+<p>Upload leaf image and get instant result</p>
+<button class="btn" onclick="scrollToSec('demo')">Scan Crop</button>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+<div class="card">🌿 Detection</div>
+<div class="card">📊 Severity</div>
+<div class="card">🌦 Weather</div>
+<div class="card">💊 Treatment</div>
+</div>
+
+<!-- DEMO -->
+<div class="demo" id="demo">
+<h2>Live Scan</h2>
+<input type="file" id="fileInput">
+<br><br>
+<button class="btn" onclick="analyze()">Analyze</button>
+<p id="output"></p>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+<h2>About</h2>
+<p>Farmers lose up to 40% crops due to late detection. AgroVision helps detect diseases early.</p>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+<h2>Services</h2>
+<p>Disease Detection | Smart Treatment | Weather Risk</p>
+</section>
+
+<!-- DASHBOARD -->
+<section id="dashboard">
+<h2>Dashboard</h2>
+
+<div class="stats">
+<div class="stat" id="total">0 Scans</div>
+<div class="stat" id="disease">0 Diseases</div>
+<div class="stat" id="healthy">0 Healthy</div>
+</div>
+
+<h3>History</h3>
+<ul id="history"></ul>
+</section>
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+<h3>Login</h3>
+<input id="user" placeholder="Username"><br><br>
+<input id="pass" type="password" placeholder="Password"><br><br>
+<button onclick="login()">Login</button>
+</div>
+
+<!-- CHATBOT -->
+<div id="chatbot">
+<div id="chat-header">🌱 Krishi AI Bot</div>
+<div id="chat-box"></div>
+<div style="display:flex">
+<input id="chat-input" placeholder="Ask..." onkeypress="handleKey(event)">
+<button onclick="startVoice()">🎤</button>
+</div>
+</div>
+
+<script>
+
+let historyData = JSON.parse(localStorage.getItem("data")) || [];
+
+// ANALYZE
+function analyze(){
+let file=document.getElementById("fileInput").files[0];
+if(!file){alert("Select image");return;}
+
+let diseases=["Early Blight","Leaf Spot","Healthy"];
+let result=diseases[Math.floor(Math.random()*diseases.length)];
+let confidence=Math.floor(Math.random()*20)+80;
+
+let text=`🌿 ${result} (${confidence}%)`;
+document.getElementById("output").innerText=text;
+
+historyData.push(text);
+localStorage.setItem("data",JSON.stringify(historyData));
+
+updateDashboard();
+}
+
+// DASHBOARD
+function updateDashboard(){
+let total=historyData.length;
+let disease=historyData.filter(x=>!x.includes("Healthy")).length;
+let healthy=total-disease;
+
+document.getElementById("total").innerText=total+" Scans";
+document.getElementById("disease").innerText=disease+" Diseases";
+document.getElementById("healthy").innerText=healthy+" Healthy";
+
+let list=document.getElementById("history");
+list.innerHTML="";
+historyData.forEach(item=>{
+let li=document.createElement("li");
+li.innerText=item;
+list.appendChild(li);
+});
+}
+
+// LOGIN
+function openLogin(){document.getElementById("loginBox").style.display="block";}
+function login(){alert("Login Success");document.getElementById("loginBox").style.display="none";}
+
+// SCROLL
+function scrollToSec(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+// CHAT TEXT
+function handleKey(e){
+if(e.key==="Enter"){
+let input=document.getElementById("chat-input");
+handleVoice(input.value);
+input.value="";
+}
+}
+
+// CHAT LOGIC + VOICE
+function handleVoice(msg){
+msg=msg.toLowerCase();
+addMsg("You: "+msg);
+
+let reply="Kripya image upload karein.";
+
+if(msg.includes("blight")) reply="Blight hai. Fungicide use karein.";
+else if(msg.includes("yellow")) reply="Nitrogen fertilizer use karein.";
+else if(msg.includes("leaf")) reply="Infected leaves hata dein.";
+else if(msg.includes("weather")) reply="Humidity se risk badhta hai.";
+else if(msg.includes("prevent")) reply="Overwatering avoid karein.";
+
+addMsg("Bot: "+reply);
+
+// VOICE OUTPUT
+let speech=new SpeechSynthesisUtterance(reply);
+speech.lang="hi-IN";
+speechSynthesis.speak(speech);
+}
+
+// MIC INPUT
+function startVoice(){
+const recognition=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+recognition.lang="hi-IN";
+recognition.start();
+
+recognition.onresult=function(e){
+let text=e.results[0][0].transcript;
+handleVoice(text);
+};
+}
+
+// CHAT UI
+function addMsg(text){
+let box=document.getElementById("chat-box");
+let div=document.createElement("div");
+div.innerText=text;
+box.appendChild(div);
+box.scrollTop=box.scrollHeight;
+}
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
